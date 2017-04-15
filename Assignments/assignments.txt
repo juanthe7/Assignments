@@ -57,16 +57,60 @@
 --users, all the users should be allow to connect to the database. Use the role "without_privileges"? for
 --users associate with profiles: manager_profile?, finance_profile? and service_profile?. (0.5)
 
+--Create 4 users, assign them the tablespace "vehicles_fleet?";
+CREATE USER USUARIO1
+IDENTIFIED BY usuario1
+DEFAULT tablespace vehicles_fleet
+PROFILE manager_profile;
 
+CREATE USER USUARIO2
+IDENTIFIED BY usuario2
+DEFAULT tablespace vehicles_fleet
+PROFILE finance_profile;
+
+CREATE USER USUARIO3
+IDENTIFIED BY usuario3
+DEFAULT tablespace vehicles_fleet
+PROFILE service_profile;
+
+CREATE USER USUARIO4
+IDENTIFIED BY usuario4
+DEFAULT tablespace vehicles_fleet
+PROFILE development;
+--Consultar los usuarios creados
+select *from dba_users;
+
+
+--all the users should be allow to connect to the database
+
+GRANT CREATE SESSION TO USUARIO1, USUARIO2, USUARIO3, USUARIO4;
+
+
+--Use the role "without_privileges"? for users associate with profiles: manager_profile?, finance_profile? and service_profile?.
+
+GRANT without_privileges TO USUARIO1, USUARIO2, USUARIO3;
 
 
 ---------------------------(9)------------------------------   
 --Lock the users associate with profiles: manager_profile?, finance_profile? and service_profile?. (0.5)
 
 
+ALTER USER USUARIO1 ACCOUNT LOCK;
+ALTER USER USUARIO2 ACCOUNT LOCK;
+ALTER USER USUARIO3 ACCOUNT LOCK;
+
+-- CONSULTAR LOS USUARIOS BLOQUEADOS.
+select * from DBA_USERS;
 
 ---------------------------(10)------------------------------   
 --Delete the tablespace called "test_purposes?" (0.5)
 
 
+--Instruccion SQL para borrar el DATAFILE con el contenido y los DATAFILES
 
+DROP TABLESPACE test_purposes 
+INCLUDING CONTENTS AND DATAFILES ;
+
+
+-- Borrar SOLO  el Tablespace sin el contenido y los DATAFILES. 
+DROP TABLESPACE test_purposes; 
